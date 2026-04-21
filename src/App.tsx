@@ -268,6 +268,11 @@ export default function App() {
   const [expandedNdArticleId, setExpandedNdArticleId] = useState<string | null>(null);
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchQueryLuat, setSearchQueryLuat] = useState("");
+  const [searchQueryNd, setSearchQueryNd] = useState("");
+
+  const effectiveLuatSearch = searchQueryLuat.trim() || searchQuery.trim();
+  const effectiveNdSearch = searchQueryNd.trim() || searchQuery.trim();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [showDisclaimer, setShowDisclaimer] = useState(false);
   const [showLegalBasis, setShowLegalBasis] = useState(false);
@@ -332,7 +337,7 @@ export default function App() {
       );
     }
     
-    if (!searchQuery) {
+    if (!effectiveLuatSearch) {
       setExpandedLuatArticleId(null);
     }
     if (articleId) {
@@ -354,7 +359,7 @@ export default function App() {
       );
     }
 
-    if (!searchQuery) {
+    if (!effectiveNdSearch) {
       setExpandedNdArticleId(null);
     }
     if (articleId) {
@@ -400,23 +405,56 @@ export default function App() {
         <div className="p-6 border-b border-ink-900/5 flex flex-col gap-4">
           <div className="flex items-center gap-4">
             <div className="relative w-12 h-12 flex items-center justify-center shrink-0 group">
-              {/* Background decorative rings */}
               <div className="absolute inset-0 rounded-full border-2 border-red-900/20 scale-[1.18] pointer-events-none" />
               <div className="absolute inset-0 rounded-full border border-amber-500/30 scale-110 pointer-events-none" />
               
-              <div className="w-full h-full rounded-full bg-gradient-to-br from-red-600 via-red-700 to-red-900 flex items-center justify-center shadow-2xl border-2 border-amber-400/50 overflow-hidden relative">
-                {/* Book backdrop */}
-                <BookOpen className="absolute text-red-950/40 translate-y-1" size={28} strokeWidth={2.5} />
-                
-                {/* Scale foreground */}
-                <Scale 
-                  size={24} 
-                  className="text-amber-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] transition-all duration-500 group-hover:scale-110 z-10" 
-                  strokeWidth={1.5} 
-                />
-                
-                {/* Sheen Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/20 pointer-events-none" />
+              <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden relative border border-slate-200 shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="w-[85%] h-[85%] drop-shadow-sm">
+                  {/* Outer Gold Rings */}
+                  <g fill="none" stroke="#D4AF37" strokeLinecap="round" strokeLinejoin="round">
+                    {/* Top Gold Swirl */}
+                    <path d="M 12 55 C 5 25 35 5 65 10 C 85 13 100 28 95 48" strokeWidth="4" />
+                    <path d="M 12 55 C 20 45 35 48 35 48" strokeWidth="2.5" />
+                    {/* Bottom Gold Swirl */}
+                    <path d="M 88 45 C 95 75 65 95 35 90 C 15 87 0 72 5 52" strokeWidth="4" />
+                    <path d="M 88 45 C 80 55 65 52 65 52" strokeWidth="2.5" />
+                  </g>
+                  
+                  {/* The Scales */}
+                  <g stroke="#0F2C41" strokeLinejoin="round">
+                    {/* Scale Bar */}
+                    <path d="M 14 36 Q 50 28 86 36" fill="none" strokeWidth="3.5" strokeLinecap="round" />
+                    <circle cx="14" cy="36" r="1.5" fill="#0F2C41" stroke="none" />
+                    <circle cx="86" cy="36" r="1.5" fill="#0F2C41" stroke="none" />
+                    
+                    {/* Left Scale Bowl */}
+                    <line x1="14" y1="36" x2="4" y2="65" strokeWidth="1.5" />
+                    <line x1="14" y1="36" x2="24" y2="65" strokeWidth="1.5" />
+                    <path d="M 2 65 Q 14 76 26 65 Z" fill="#0F2C41" strokeWidth="1" />
+                    
+                    {/* Right Scale Bowl */}
+                    <line x1="86" y1="36" x2="76" y2="65" strokeWidth="1.5" />
+                    <line x1="86" y1="36" x2="96" y2="65" strokeWidth="1.5" />
+                    <path d="M 74 65 Q 86 76 98 65 Z" fill="#0F2C41" strokeWidth="1" />
+                  </g>
+
+                  {/* The Fist */}
+                  <g fill="#0F2C41">
+                    {/* Arm Base */}
+                    <path d="M 43 100 L 45 65 L 55 65 L 57 100 Z" />
+                    {/* Hand Core */}
+                    <path d="M 45 65 L 39 50 L 39 30 L 61 30 L 61 50 L 55 65 Z" />
+                    
+                    {/* Knuckles/Fingers */}
+                    <rect x="39" y="24" width="22" height="7" rx="3.5" />
+                    <rect x="37" y="32" width="25" height="7" rx="3.5" />
+                    <rect x="38" y="40" width="22" height="7" rx="3.5" />
+                    <rect x="40" y="48" width="18" height="7" rx="3.5" />
+                    
+                    {/* Thumb */}
+                    <path d="M 36 57 L 46 38 A 3.5 3.5 0 0 1 52 42 L 42 61 Z" />
+                  </g>
+                </svg>
               </div>
             </div>
             
@@ -508,9 +546,9 @@ export default function App() {
             </button>
 
             <AnimatePresence>
-              {(isLuatSidebarExpanded || searchQuery.trim()) && (
+              {(isLuatSidebarExpanded || effectiveLuatSearch) && (
                 <motion.div
-                  initial={searchQuery.trim() ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
+                  initial={effectiveLuatSearch ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.3 }}
@@ -518,12 +556,12 @@ export default function App() {
                 >
                   <div className="pl-2 pr-0 pt-2 pb-1">
                     {DOCUMENTS.filter(d => d.id === 'luat').map((doc) => {
-                      const filteredChapters = searchQuery.trim() 
+                      const filteredChapters = effectiveLuatSearch 
                         ? doc.chapters.filter(ch => 
-                            ch.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                            (ch.sections?.some(s => s.title.toLowerCase().includes(searchQuery.toLowerCase()))) ||
-                            (ch.articles?.some(a => a.title.toLowerCase().includes(searchQuery.toLowerCase()) || a.content.toLowerCase().includes(searchQuery.toLowerCase()))) ||
-                            (ch.sections?.some(s => s.articles.some(a => a.title.toLowerCase().includes(searchQuery.toLowerCase()) || a.content.toLowerCase().includes(searchQuery.toLowerCase()))))
+                            ch.title.toLowerCase().includes(effectiveLuatSearch.toLowerCase()) || 
+                            (ch.sections?.some(s => s.title.toLowerCase().includes(effectiveLuatSearch.toLowerCase()))) ||
+                            (ch.articles?.some(a => a.title.toLowerCase().includes(effectiveLuatSearch.toLowerCase()) || a.content.toLowerCase().includes(effectiveLuatSearch.toLowerCase()))) ||
+                            (ch.sections?.some(s => s.articles.some(a => a.title.toLowerCase().includes(effectiveLuatSearch.toLowerCase()) || a.content.toLowerCase().includes(effectiveLuatSearch.toLowerCase()))))
                           )
                         : doc.chapters;
 
@@ -551,7 +589,7 @@ export default function App() {
                                 <button
                                   onClick={() => handleSelectLuat(chapter.id)}
                                   className={`w-full text-left px-2 py-2.5 rounded-xl text-xs transition-all duration-300 flex items-center gap-2 group relative ${
-                                    isSelected && !searchQuery
+                                    isSelected && !effectiveLuatSearch
                                       ? 'bg-deep-yellow text-white font-bold shadow-lg shadow-deep-yellow/20'
                                       : 'text-ink-800 hover:bg-ink-900/5 font-semibold'
                                   }`}
@@ -584,7 +622,7 @@ export default function App() {
                                               key={section.id}
                                               onClick={() => handleSelectLuat(section.id)}
                                               className={`w-full text-left px-3 py-2 rounded-lg text-[10px] transition-all duration-200 block font-medium whitespace-normal break-words ${
-                                                isSectionSelected && !searchQuery
+                                                isSectionSelected && !effectiveLuatSearch
                                                   ? 'text-deep-yellow-dark font-black bg-white shadow-sm'
                                                   : 'text-ink-800/60 hover:text-ink-900 hover:bg-white/50'
                                               }`}
@@ -629,9 +667,9 @@ export default function App() {
             </button>
 
             <AnimatePresence>
-              {(isNdSidebarExpanded || searchQuery.trim()) && (
+              {(isNdSidebarExpanded || effectiveNdSearch) && (
                 <motion.div
-                  initial={searchQuery.trim() ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
+                  initial={effectiveNdSearch ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.3 }}
@@ -642,10 +680,10 @@ export default function App() {
                       const allNdChapters = nghiDinh214Data.chapters.map(ch => ch.id);
                       const isAllNdSelected = allNdChapters.length > 0 && allNdChapters.every(id => selectedNdIds.includes(id));
 
-                      const filteredNdChapters = searchQuery.trim() 
+                      const filteredNdChapters = effectiveNdSearch 
                         ? nghiDinh214Data.chapters.filter(ch => 
-                            ch.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                            (ch.articles?.some(a => a.title.toLowerCase().includes(searchQuery.toLowerCase()) || a.content.toLowerCase().includes(searchQuery.toLowerCase())))
+                            ch.title.toLowerCase().includes(effectiveNdSearch.toLowerCase()) || 
+                            (ch.articles?.some(a => a.title.toLowerCase().includes(effectiveNdSearch.toLowerCase()) || a.content.toLowerCase().includes(effectiveNdSearch.toLowerCase())))
                           )
                         : nghiDinh214Data.chapters;
 
@@ -667,7 +705,7 @@ export default function App() {
                                 <button
                                   onClick={() => handleSelectNd(chapter.id)}
                                   className={`w-full text-left px-2 py-2.5 rounded-xl text-xs transition-all duration-300 flex items-center gap-2 group relative ${
-                                    isSelected && !searchQuery
+                                    isSelected && !effectiveNdSearch
                                       ? 'bg-deep-yellow text-white font-bold shadow-lg shadow-deep-yellow/20'
                                       : 'text-ink-800 hover:bg-ink-900/5 font-semibold'
                                   }`}
@@ -707,7 +745,7 @@ export default function App() {
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/rice-paper-2.png')] opacity-20 pointer-events-none" />
 
         <header 
-          className="shrink-0 bg-cream-100 backdrop-blur-xl border-b border-ink-900/5 p-4 lg:p-8 flex items-center gap-6 z-30 relative overflow-hidden"
+          className="shrink-0 bg-cream-100 backdrop-blur-xl border-b border-ink-900/5 p-4 lg:py-4 lg:px-6 flex items-center gap-4 lg:gap-6 z-30 relative overflow-hidden"
         >
           {/* Decorative Snowflakes */}
           <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
@@ -773,10 +811,26 @@ export default function App() {
            
            {/* Left Pane: Luật đấu thầu */}
            <div className="flex-1 h-full relative lg:rounded-2xl overflow-hidden flex flex-col min-h-[50vh] lg:min-h-0 lg:border lg:border-white/10 lg:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] bg-slate-900">
-             <div className="bg-slate-800/90 backdrop-blur py-3 px-4 lg:px-6 border-b border-white/5 font-bold text-white flex items-center justify-between z-20">
-                 <div className="flex items-center gap-2">
+             <div className="bg-slate-800/90 backdrop-blur py-3 px-4 lg:px-6 border-b border-white/5 font-bold text-white flex items-center justify-between gap-4 z-20">
+                 <div className="flex items-center gap-2 shrink-0">
                    <BookOpen size={18} className="text-amber-400" />
-                   Luật Đấu Thầu
+                   <span className="hidden sm:inline">Luật Đấu Thầu</span>
+                 </div>
+                 {/*  Search bar here */}
+                 <div className="relative flex-1 max-w-sm group">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-amber-400 transition-colors" size={14} />
+                    <input
+                      type="text"
+                      placeholder='Tìm trong Luật...'
+                      value={searchQueryLuat}
+                      onChange={(e) => setSearchQueryLuat(e.target.value)}
+                      className="w-full pl-9 pr-8 py-1.5 bg-slate-900/50 border border-white/10 rounded-lg focus:outline-none focus:ring-1 focus:ring-amber-500/50 transition-all text-xs shadow-sm text-white font-normal placeholder:text-slate-500"
+                    />
+                    {searchQueryLuat && (
+                       <button onClick={() => setSearchQueryLuat("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors">
+                         <X size={14} />
+                       </button>
+                    )}
                  </div>
              </div>
              <div className="flex-1 overflow-hidden relative">
@@ -785,10 +839,13 @@ export default function App() {
                   allArticles={allLawArticles} 
                   selectedIds={selectedLuatIds}
                   expandedArticleId={expandedLuatArticleId}
-                  searchQuery={searchQuery}
+                  searchQuery={effectiveLuatSearch}
                   onSelect={handleSelectLuat}
                   onToggleArticle={(id) => setExpandedLuatArticleId(prev => prev === id ? null : id)}
-                  onClearSearch={() => setSearchQuery("")}
+                  onClearSearch={() => {
+                    setSearchQueryLuat("");
+                    setSearchQuery("");
+                  }}
                   isSidebarOpen={isSidebarOpen}
                />
              </div>
@@ -796,10 +853,26 @@ export default function App() {
 
            {/* Right Pane: Nghị định 214 */}
            <div className="flex-1 h-full relative lg:rounded-2xl overflow-hidden flex flex-col min-h-[50vh] lg:min-h-0 bg-slate-900 lg:border lg:border-white/10 lg:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)]">
-             <div className="bg-slate-800/90 backdrop-blur py-3 px-4 lg:px-6 border-b border-white/5 font-bold text-white flex items-center justify-between z-20">
-                 <div className="flex items-center gap-2">
+             <div className="bg-slate-800/90 backdrop-blur py-3 px-4 lg:px-6 border-b border-white/5 font-bold text-white flex items-center justify-between gap-4 z-20">
+                 <div className="flex items-center gap-2 shrink-0">
                    <ScrollText size={18} className="text-amber-400" />
-                   Nghị định 214
+                   <span className="hidden sm:inline">Nghị định 214</span>
+                 </div>
+                 {/*  Search bar here */}
+                 <div className="relative flex-1 max-w-sm group">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-amber-400 transition-colors" size={14} />
+                    <input
+                      type="text"
+                      placeholder='Tìm trong Nghị định...'
+                      value={searchQueryNd}
+                      onChange={(e) => setSearchQueryNd(e.target.value)}
+                      className="w-full pl-9 pr-8 py-1.5 bg-slate-900/50 border border-white/10 rounded-lg focus:outline-none focus:ring-1 focus:ring-amber-500/50 transition-all text-xs shadow-sm text-white font-normal placeholder:text-slate-500"
+                    />
+                    {searchQueryNd && (
+                       <button onClick={() => setSearchQueryNd("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors">
+                         <X size={14} />
+                       </button>
+                    )}
                  </div>
              </div>
              <div className="flex-1 overflow-hidden relative">
@@ -808,10 +881,13 @@ export default function App() {
                   allArticles={allNd214Articles} 
                   selectedIds={selectedNdIds}
                   expandedArticleId={expandedNdArticleId}
-                  searchQuery={searchQuery}
+                  searchQuery={effectiveNdSearch}
                   onSelect={handleSelectNd}
                   onToggleArticle={(id) => setExpandedNdArticleId(prev => prev === id ? null : id)}
-                  onClearSearch={() => setSearchQuery("")}
+                  onClearSearch={() => {
+                    setSearchQueryNd("");
+                    setSearchQuery("");
+                  }}
                   isSidebarOpen={isSidebarOpen}
                />
              </div>
