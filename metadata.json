@@ -1,6 +1,6 @@
 {
-  "name": "Remix: Remix: Tra cứu Luật Đấu thầu 2023",
-  "description": "Ứng dụng tra cứu nhanh chi tiết các chương, điều khoản của Luật Đấu thầu Việt Nam 2023.",
+  "name": "Luật Đấu Thầu",
+  "description": "Hệ thống hỗ trợ tra cứu nhanh Luật Đấu thầu và Nghị định 214.",
   "requestFramePermissions": [],
   "majorCapabilities": []
 }

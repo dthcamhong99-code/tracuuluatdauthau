@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useCallback, useEffect } from 'react';
-import { Search, ChevronRight, Gavel, BookOpen, AlertCircle, Info, Menu, X, ArrowLeft, Filter, ChevronDown, Scale, ScrollText, Snowflake } from 'lucide-react';
+import { Search, ChevronRight, Gavel, BookOpen, AlertCircle, Info, Menu, X, ArrowLeft, Filter, ChevronDown, Scale, ScrollText, Snowflake, Download } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { DOCUMENTS, allLawArticles } from './data/lawData';
 import { nghiDinh214Data, allNd214Articles } from './data/nd214';
@@ -276,6 +276,26 @@ export default function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [showDisclaimer, setShowDisclaimer] = useState(false);
   const [showLegalBasis, setShowLegalBasis] = useState(false);
+
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setDeferredPrompt(null);
+    }
+  };
 
   // Chapters with expanded sections in sidebar
   const [expandedSidebarChapters, setExpandedSidebarChapters] = useState<string[]>([]);
@@ -800,8 +820,18 @@ export default function App() {
                  className="bg-deep-yellow hover:bg-deep-yellow-hover px-4 py-2 rounded-xl font-bold text-xs text-white transition-all flex items-center gap-1.5 shrink-0 shadow-md shadow-deep-yellow/20"
                >
                  <ArrowLeft size={14} />
-                 Xóa tìm kiếm
+                 <span className="hidden sm:inline">Xóa tìm kiếm</span>
                </button>
+            )}
+            {deferredPrompt && (
+              <button 
+                onClick={handleInstallClick}
+                className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 px-4 py-2 rounded-xl font-bold text-xs text-white transition-all flex items-center gap-1.5 shrink-0 shadow-md shadow-emerald-500/20"
+                title="Tải ứng dụng về máy"
+              >
+                <Download size={16} />
+                <span className="hidden sm:inline">Tải App</span>
+              </button>
             )}
           </div>
         </header>

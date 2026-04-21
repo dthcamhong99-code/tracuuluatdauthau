@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" rx="20" fill="white" />
+  <!-- Outer Gold Rings -->
+  <g fill="none" stroke="#D4AF37" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Top Gold Swirl -->
+    <path d="M 12 55 C 5 25 35 5 65 10 C 85 13 100 28 95 48" stroke-width="4" />
+    <path d="M 12 55 C 20 45 35 48 35 48" stroke-width="2.5" />
+    <!-- Bottom Gold Swirl -->
+    <path d="M 88 45 C 95 75 65 95 35 90 C 15 87 0 72 5 52" stroke-width="4" />
+    <path d="M 88 45 C 80 55 65 52 65 52" stroke-width="2.5" />
+  </g>
+  
+  <!-- The Scales -->
+  <g stroke="#0F2C41" stroke-linejoin="round">
+    <!-- Scale Bar -->
+    <path d="M 14 36 Q 50 28 86 36" fill="none" stroke-width="3.5" stroke-linecap="round" />
+    <circle cx="14" cy="36" r="1.5" fill="#0F2C41" stroke="none" />
+    <circle cx="86" cy="36" r="1.5" fill="#0F2C41" stroke="none" />
+    
+    <!-- Left Scale Bowl -->
+    <line x1="14" y1="36" x2="4" y2="65" stroke-width="1.5" />
+    <line x1="14" y1="36" x2="24" y2="65" stroke-width="1.5" />
+    <path d="M 2 65 Q 14 76 26 65 Z" fill="#0F2C41" stroke-width="1" />
+    
+    <!-- Right Scale Bowl -->
+    <line x1="86" y1="36" x2="76" y2="65" stroke-width="1.5" />
+    <line x1="86" y1="36" x2="96" y2="65" stroke-width="1.5" />
+    <path d="M 74 65 Q 86 76 98 65 Z" fill="#0F2C41" stroke-width="1" />
+  </g>
+
+  <!-- The Fist -->
+  <g fill="#0F2C41">
+    <!-- Arm Base -->
+    <path d="M 43 100 L 45 65 L 55 65 L 57 100 Z" />
+    <!-- Hand Core -->
+    <path d="M 45 65 L 39 50 L 39 30 L 61 30 L 61 50 L 55 65 Z" />
+    
+    <!-- Knuckles/Fingers -->
+    <rect x="39" y="24" width="22" height="7" rx="3.5" />
+    <rect x="37" y="32" width="25" height="7" rx="3.5" />
+    <rect x="38" y="40" width="22" height="7" rx="3.5" />
+    <rect x="40" y="48" width="18" height="7" rx="3.5" />
+    
+    <!-- Thumb -->
+    <path d="M 36 57 L 46 38 A 3.5 3.5 0 0 1 52 42 L 42 61 Z" />
+  </g>
+</svg>
