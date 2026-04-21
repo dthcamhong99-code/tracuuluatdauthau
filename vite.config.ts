@@ -7,7 +7,6 @@ import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
-    base:'/tracuuluatdauthau/',
     plugins: [
       react(), 
       tailwindcss(),
@@ -15,18 +14,28 @@ export default defineConfig(({mode}) => {
         registerType: 'autoUpdate',
         includeAssets: ['icon.svg'],
         manifest: {
-          name: 'Tra cứu Luật Bất Động Sản',
-          short_name: 'Tra cứu Luật',
+          name: 'Tra cứu Luật đấu thầu',
+          short_name: 'Luật Đấu Thầu',
           description: 'Hệ thống hỗ trợ tra cứu nhanh Luật đấu thầu và Nghị định 214',
           theme_color: '#f8fafc',
           background_color: '#ffffff',
           display: 'standalone',
           icons: [
             {
-              src: 'icon.svg',
-              sizes: '192x192 512x512',
+              src: '/icon.svg',
+              sizes: 'any',
               type: 'image/svg+xml',
               purpose: 'any maskable'
+            },
+            {
+              src: '/icon.svg',
+              sizes: '192x192',
+              type: 'image/svg+xml'
+            },
+            {
+              src: '/icon.svg',
+              sizes: '512x512',
+              type: 'image/svg+xml'
             }
           ]
         },
